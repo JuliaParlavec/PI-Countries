@@ -12,7 +12,6 @@ function App() {
         <Route exact path = '/' component = {LandingPage}/>
         <Route path= '/home' component = {Home}/>
       </Switch>
-      <h1>Henry Countries</h1>
     </div>
     </BrowserRouter>
   );
