@@ -138,4 +138,16 @@ router.get("/countries/:id", async (req, res) => {
   }
 });
 
+//- [ ] __GET /activities__:
+//- creamos una ruta para poder llevar todos los paises al front y hacer un filtro de actividades
+router.get("/allActivities", async (req, res) => {
+  const allActivities = await Activities.findAll();
+
+  if (allActivities) {
+    res.status(200).json(allActivities)
+  } else {
+    res.status(404).json("There are no activities to show.");
+  }
+});
+
 module.exports = router;

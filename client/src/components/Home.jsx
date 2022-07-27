@@ -1,7 +1,7 @@
 import React from "react";
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCountries} from '../actions/actions';
+import {getCountries, filterCountriesByContinent} from '../actions/actions';
 import {Link} from 'react-router-dom';
 import Card from "./Card";
 import Paginado from "./Paginado";
@@ -35,6 +35,13 @@ function handleClick(event){ //es para poder cargar todos los paises de vuelta c
     event.preventDefault(); //prevenimos que se rompa
     dispatch(getCountries()) //lo que despachamos es todos los paises
 }
+
+//-----------handle filtro continente
+function handleFilterContinent(event){ //cuando yo eprieto cada opcion ocurre algo -> el evento
+    dispatch(filterCountriesByContinent(event.target.value)) //por ende despacho la funcion de filtro x continente y le paso el e target value, que el lo que va dsp al action (el payload!!!!)
+}
+//----------------
+
 return (
     <div>
         <Link to = '/activities'>Create activity</Link> {/*creamos un boton que me lleve a crear una actividad */}
@@ -51,17 +58,18 @@ return (
                 <option>Ederly</option>
                 <option>Minor</option>
             </select>
-            <select>{/*continent*/}
-                <option>All</option>
-                <option>Europe</option>
-                <option>Oceania</option>
-                <option>Asia</option>
-                <option>Africa</option>
-                <option>Americas</option>
-                <option>Antartic</option>
+            <select onChange={event => handleFilterContinent(event) }>{/*continent*/}
+                <option value = 'All'>All</option>
+                <option value = 'Europe'>Europe</option>
+                <option value = 'Oceania'>Oceania</option>
+                <option value = 'Asia'>Asia</option>
+                <option value = 'Africa'>Africa</option>
+                <option value = 'Americas'>Americas</option>
+                <option value = 'Antarctic'>Antarctic</option>
             </select>
             <select>{/*Activity*/}
-                <option>All</option>
+                <option value = 'All'>All</option>
+                <option value = 'All'>All</option>
             </select>
             {/* ----------------------
             paginado */}

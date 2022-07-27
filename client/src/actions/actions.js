@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-//acciones que voy a necesitar para mi home
+//acciones que voy a necesitar para mi home -> CADA UNA DE ESTAS ES UNA ACCION
+
+
+//------------------------ GETS
 //aca vamos a mostrar todos los paises, para eso vamos a hacer una funcion que los traia
 export function getCountries(){
     return async function(dispatch){ //vamos a devolver una funcion asincrona dde le pasamos el dispatch
@@ -16,3 +19,33 @@ export function getCountries(){
 }
 //el dispatch funciona de manera que hay que esperar (async) a que se cumpla la funcion (const json = await axios.get('http://localhost:3001/countries') para
 //poder retornar el dispatch - la accion - (  type: 'GET_COUNTRIES', payload: json.data)
+
+//ACCION QUE TRAIGA TODAS LAS ACTIVIDADES
+// export function getActivities(){
+//     return async function(dispatch){
+//         const json = await axios.get ('http://localhost:3001/allActivities', {
+//         })
+
+//         dispatch ({
+//             type: 'GET_ACTIVITIES',
+//             payload: json.data
+//         })
+//     }
+// }
+//------------------------------------------
+//FILTRADOS : Botones/Opciones para filtrar por continente y por tipo de actividad turística
+
+//en las acciones no ponemos logica, solo despachamos timpos, la logica la hacemos en el reducer
+export function filterCountriesByContinent(payload) { //le paso un payload que va a ser el value que me va a llegar
+    return{
+        type:'FILTER_BY_CONTINENT',
+        payload
+    }
+}
+
+export function filterActivity(payload) {
+    return{
+        type:'FILTER_BY_ACTIVITY',
+        payload
+    }
+}
