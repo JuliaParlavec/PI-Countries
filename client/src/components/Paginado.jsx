@@ -1,4 +1,5 @@
 import React from "react";
+import style from "./Estilos/Paginado.module.css";
 
 export default function Paginado ({countriesPerPage, allCountries, paginado}){ //me traigo esto cmo propiedades del otro componente
     const pageNumbers = [] //hago una const pagenumbers que sea un arreglo vacio
@@ -13,7 +14,7 @@ export default function Paginado ({countriesPerPage, allCountries, paginado}){ /
                 {   pageNumbers &&
                     pageNumbers.map(num=>(
                         <span key={num}>
-                            <button  onClick={()=>paginado(num)}>{num}</button>
+                            <button className={style.button} onClick={()=>paginado(num)}>{num}</button>
                         </span>
                     ))
                 }

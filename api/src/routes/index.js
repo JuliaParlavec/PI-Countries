@@ -141,12 +141,38 @@ router.get("/countries/:id", async (req, res) => {
 //- [ ] __GET /activities__:
 //- creamos una ruta para poder llevar todos los paises al front y hacer un filtro de actividades
 router.get("/allActivities", async (req, res) => {
-  const allActivities = await Activities.findAll();
+  try {
+    const allActivities = await Activities.findAll();
+    const { name } = req.query; //recibo un nbre por query
+    if (name) {
+      //si me lo pasan, que busque
+      const hasActiv = await Countries.findAll({
+        //y encuentre dentro del modelo countries aquel pais que contenga actividades
+        include: Activities,
+      });
 
-  if (allActivities) {
-    res.status(200).json(allActivities)
-  } else {
-    res.status(404).json("There are no activities to show.");
+      const count = await hasActiv.filter((x) => {
+        //filtrar en los paises que contienen actividades, aquel que el nombre sea igual al nombre que me pasan por query
+        for (let i = 0; i < x.activities.length; i++) {
+          //activities es el nombre de la propiedad
+          if (x.activities[i].name.toLowerCase() === name.toLowerCase()) {
+            return true;
+          }
+        }
+      });
+    
+      if (count.length) {
+        return res.status(200).send(count);
+      } else {
+        return res
+          .status(404)
+          .send("There are no countries with that activity.");
+      }
+    }
+
+    res.status(200).send(allActivities);
+  } catch (error) {
+    res.json(error);
   }
 });
 

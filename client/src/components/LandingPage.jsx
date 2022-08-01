@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import style from './Estilos/LandingPage.module.css'
 
 export default function LandingPage(){
     return (
-        <div>
-            <h1>Countries</h1>
+        <div className={style.container}>
+            <div className={style.title}>COUNTRIES</div>
             <Link to = '/home'>
-                <button>Start</button>
+                <button className={style.enter}>START</button>
             </Link>
         </div>
     )
