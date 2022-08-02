@@ -67,11 +67,17 @@ export default function Home() {
 
   function handleAlphabeticalOrder(event) {
     event.preventDefault(); //prevenimos q se rompa
-    dispatch(alphabeticalOrder(event.target.value));
+    if (event.target.value === "all") {
+      dispatch(getCountries())
+      setCurrentPage(1)
+      setOrden(`Ordered ${event.target.value}`) 
+    } else {
+      dispatch(alphabeticalOrder(event.target.value));
     setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
     setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
     console.log('allCountries');
-    alert(allCountries);
+    }
+    // alert(allCountries);
   }
 
   function handleOrderByPopulation(event) {
@@ -116,7 +122,7 @@ export default function Home() {
         <div className={nav.title}>Alphabetical order</div>
         <select className={nav.input} onChange={(event) => handleAlphabeticalOrder(event)}>
           {/*Alphabetical order*/}
-      
+          <option value ="all">All</option>
           <option value="asc">A-Z</option>
           <option value="des">Z-A</option>
         </select>
@@ -138,6 +144,7 @@ export default function Home() {
         <select className={nav.input} onChange={(event) => handleFilterContinent(event)}>
           {/*continent*/}
           {/* <option value="All">All</option> */}
+          <option value ="All">All</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
           <option value="Asia">Asia</option>

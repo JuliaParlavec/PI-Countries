@@ -1,12 +1,13 @@
 //Inicializamos el estado
-// import { ordAlpha, ordPop } from '../components/Order/';
+ import { ordAlpha, ordPop } from "../components/Orders/Order.jsx";
+
 const initialState = {
   countries: [], //arreglo dde se dejan los q se renderizan
   allCountries: [], //hace una copia del estado que siempre tenga todos los peronajes
   allActivities: [], //hace una compia de todas las actividades
   activities: [],
   detail: []
-  // AllPopulation: [],
+
 };
 
 export default function rootReducer(state = initialState, action) {
@@ -53,38 +54,37 @@ export default function rootReducer(state = initialState, action) {
     case "ALPHABETICAL_ORDER":
 
       const orderedAlpha = (action.payload === "asc") ? state.countries.sort((a,b) => {
-        if (a.name > b.name) {
-            return 1;     
-            }
-        if (b.name > a.name) {
-            return -1;
-            }
-            return 0;
-        }) :
-        state.countries.sort((a,b) => {
-        if (a.name > b.name) {
-            return -1;
+        if (a.name < b.name) {
+            return -1;     
             }
         if (b.name > a.name) {
             return 1;
             }
             return 0;
+        }) :
+        state.countries.sort((a,b) => {
+        if (a.name < b.name) {
+            return 1;
+            }
+        if (a.name > b.name) {
+            return -1;
+            }
+            return 0;
         })
-
     return {
-        ...state,
-        countries: orderedAlpha
+      ...state,
+      countries: orderedAlpha
     }
     case 'ORDER_BY_POPULATION':
-      let orderPop;
-       (state.payload === "Higher") ? orderPop = state.countries.sort(function (a,b) {
+      const orderPop = (action.payload === "Higher") ? state.countries.sort(function (a,b) {
         if (a.population < b.population) return 1
         if (a.population > b.population) return -1
         return 0
-      }) : orderPop = state.countries.sort(function (a,b) {
+      }) : state.countries.sort(function (a,b) {
         if (a.population < b.population) return -1
         if (a.population > b.population) return 1
-        return 0 })
+        return 0 
+      })
 
         return {
             ...state,

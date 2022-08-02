@@ -5,18 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ActivityCreate() {
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.countries);
+  const countries = useSelector((state) => state.countries); //me traigo todos los paises
 
-  const [input, setInput] = useState({
+  const [input, setInput] = useState({ //tengo que hacer un estado donde le paso todos los imput q necesita el post
     //
     name: "",
     difficulty: "",
     duration: "",
     season: "",
-    countries: [],
+    countries: [], //lo tenemos que ir guardando en countries
   });
 
-  useEffect(() => {
+  useEffect(() => { 
     //Cada vex q se monta o actualixa el componente qioerp qie traiga todos los paises actualizado
     dispatch(getCountries());
   }, [dispatch]);
@@ -58,7 +58,7 @@ export default function ActivityCreate() {
     e.preventDefault();
     console.log(input);
     dispatch(postActivity(input)); //q cuando ocurra el evento se "despache" la actividad
-    alert("Activity creates succesfully!"); //aparece una alerta con el mensaje
+    alert("Activity created succesfully!"); //aparece una alerta con el mensaje
     setInput({
       //para que se ponga en 0, agarro todo y lo paso vacio
       name: "",
