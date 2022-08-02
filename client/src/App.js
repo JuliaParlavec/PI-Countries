@@ -12,9 +12,10 @@ function App() {
       {/* Hacemos el ruteo, el switch es para q en el caso q ponegas un link q no es, hace que tome el ultimo link q tomo */}
       <Switch>
         <Route exact path = '/' component = {LandingPage}/>
+         <Route path= '/home/detail/:id' component={Detail}/>
         <Route path= '/home' component = {Home}/>
         <Route path= '/create' component={ActivityCreate}/>
-        <Route path= '/home/detail/:id' component={Detail}/>
+       
       </Switch>
     </div>
     </BrowserRouter>

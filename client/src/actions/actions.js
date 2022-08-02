@@ -59,10 +59,19 @@ export function filterCountriesByContinent(payload) {
   };
 }
 
-export function filterActivity(payload) {
-  return {
-    type: "FILTER_BY_ACTIVITY",
-    payload,
+export function filterActivityByName(name) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get(
+        `http://localhost:3001/allActivities?name=${name}`
+      ); //para que a la ruta le pegue lo que le lega por payload
+      return dispatch({
+        type: "FILTER_BY_ACTIVITY",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 

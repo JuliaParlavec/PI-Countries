@@ -1,4 +1,5 @@
 //Inicializamos el estado
+// import { ordAlpha, ordPop } from '../components/Order/';
 const initialState = {
   countries: [], //arreglo dde se dejan los q se renderizan
   allCountries: [], //hace una copia del estado que siempre tenga todos los peronajes
@@ -8,7 +9,7 @@ const initialState = {
   // AllPopulation: [],
 };
 
-function rootReducer(state = initialState, action) {
+export default function rootReducer(state = initialState, action) {
   switch (
     action.type //le pasamos el tipo de accion
   ) {
@@ -38,15 +39,9 @@ function rootReducer(state = initialState, action) {
 
     
     case "FILTER_BY_ACTIVITY": 
-      const allCountries2 = state.allCountries;
-      const allActivities = state.allActivities;
-
-      const activityFiltered = action.payload === 'All'
-      ? allCountries2
-      : allActivities.filter((x) => x.name === action.payload)
       return {
         ...state,
-        countries: activityFiltered //activities o countries?
+        countries: action.payload //activities o countries?
       }
 
     case 'GET_NAME_COUNTRIES':
@@ -66,7 +61,6 @@ function rootReducer(state = initialState, action) {
             }
             return 0;
         }) :
-
         state.countries.sort((a,b) => {
         if (a.name > b.name) {
             return -1;
@@ -82,16 +76,16 @@ function rootReducer(state = initialState, action) {
         countries: orderedAlpha
     }
     case 'ORDER_BY_POPULATION':
-      // const AllPopulation = state.allCountries;
-      // let orderPop;
-      // if (action.payload === "All") {
-      //   return AllPopulation
-      // } else {
-      //   orderPop = (action.payload === 'Lower') ? state.countries.sort((a,b) => a.population - b.population) :
-      //       state.countries.sort((a,b) => b.population - a.population)
-      // }
-      const orderPop = (state.payload === "asc") ? state.countries.sort((a,b) => a.population - b.population) :
-            state.countries.sort((a,b) => b.population - a.population)
+      let orderPop;
+       (state.payload === "Higher") ? orderPop = state.countries.sort(function (a,b) {
+        if (a.population < b.population) return 1
+        if (a.population > b.population) return -1
+        return 0
+      }) : orderPop = state.countries.sort(function (a,b) {
+        if (a.population < b.population) return -1
+        if (a.population > b.population) return 1
+        return 0 })
+
         return {
             ...state,
             countries: orderPop
@@ -112,4 +106,4 @@ function rootReducer(state = initialState, action) {
   }
 }
 
-export default rootReducer;
+

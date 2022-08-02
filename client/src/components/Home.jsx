@@ -7,6 +7,7 @@ import {
   alphabeticalOrder,
   orderByPopulation,
   getActivities,
+  filterActivityByName,
   filterActivity,
 } from "../actions/actions";
 import { Link } from "react-router-dom";
@@ -14,9 +15,10 @@ import Card from "./Card";
 import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
 import style from "./Estilos/Home.module.css";
-
+import nav from "./Estilos/NavBar.module.css";
 
 export default function Home() {
+  console.log('hola')
   const dispatch = useDispatch(); //es para usar la constante e ir despachando mis acciones
   const allCountries = useSelector((state) => state.countries); // con useSelector traese en la constante allCountries todo lo que esta en el estado de countries
 
@@ -68,6 +70,8 @@ export default function Home() {
     dispatch(alphabeticalOrder(event.target.value));
     setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
     setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
+    console.log('allCountries');
+    alert(allCountries);
   }
 
   function handleOrderByPopulation(event) {
@@ -76,58 +80,64 @@ export default function Home() {
     setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
     setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
   }
+//-----------------------------------------------------------filter 
 
-  function handleFilterActivity(event) {
+  function handleInputFilterActivity(event) {
     // ************************************************************
     event.preventDefault();
-    dispatch(filterActivity(event.target.value));
+    dispatch(filterActivityByName(event.target.value));
     setCurrentPage(1);
     setOrden(`Ordenado: ${event.target.value}`);
   }
   //----------------
 
   return (
+
     <div className={style.container}>
-   <h1 className={style.title}>COUNTRIES</h1> {/*Titulo de la pagina*/}
+      {/* <h1 className={style.title}>COUNTRIES</h1>  */}
       {/* ----------------------
             paginado */}
-        <div >
-          <Paginado
-            countriesPerPage={countriesPerPage}
-            allCountries={allCountries.length}
-            paginado={paginado}
-          />
-        </div>
-        {/* ----------------------
-            paginado */}
-   <SearchBar />
-      <Link to="/create">Create activity</Link>{" "}
-      {/*creamos un boton que me lleve a crear una actividad */}
-     
-      <button
-        onClick={(event) => {
-          handleClick(event);
-        }}
-      >
-        Reload all countries
-      </button>{" "}
-      {/*le pasamos el handdle click*/}
       <div>
-        <select onChange={(event) => handleAlphabeticalOrder(event)}>
+        <Paginado
+          countriesPerPage={countriesPerPage}
+          allCountries={allCountries.length}
+          paginado={paginado}
+        />
+      </div>
+      {/* ----------------------
+            paginado */}
+
+
+      <div className={nav.container}>
+      <SearchBar />
+      <div>
+        <div>
+          {console.log(allCountries)}
+        <div className={nav.title}>Alphabetical order</div>
+        <select className={nav.input} onChange={(event) => handleAlphabeticalOrder(event)}>
           {/*Alphabetical order*/}
-          <option>All</option>
+      
           <option value="asc">A-Z</option>
           <option value="des">Z-A</option>
         </select>
-        <select onChange={(event) => handleOrderByPopulation(event)}>
+        </div>
+
+        <div>
+        <div className={nav.title}>Order by population</div>
+        <select className={nav.input} onChange={(event) => handleOrderByPopulation(event)}>
           {/*Amount of population*/}
-          <option value="All">All</option>
-          <option value="Higer">Higher population</option>
+          <option></option>
+          <option value="Higher">Higher population</option>
           <option value="Lower">Lower population</option>
         </select>
-        <select onChange={(event) => handleFilterContinent(event)}>
+        </div>
+
+
+        <div>
+        <div className={nav.title}>Order by continent</div>
+        <select className={nav.input} onChange={(event) => handleFilterContinent(event)}>
           {/*continent*/}
-          <option value="All">All</option>
+          {/* <option value="All">All</option> */}
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
           <option value="Asia">Asia</option>
@@ -135,15 +145,42 @@ export default function Home() {
           <option value="Americas">Americas</option>
           <option value="Antarctic">Antarctic</option>
         </select>
-        <select onChange={(event) => handleFilterActivity(event)}>
+        </div>
+
+        <div>
+        <div className={nav.title}>Filter by activity</div>
+        <select className={nav.input} onChange={(event) => handleInputFilterActivity(event)}>
           {/*Activity************************************************/}
-          <option value="All">All</option>
+          <option></option>
           {allActivities?.map((activity) => (
             <option value={activity.name}> {activity.name} </option>
           ))}
         </select>
-        
-     
+        </div>
+
+        <div>
+        <button className={nav.button}
+          onClick={(event) => {
+            handleClick(event);
+          }}
+        >
+          Reload all countries
+        </button>{" "}
+        </div>
+
+        {/*le pasamos el handdle click*/}
+        {/*creamos un boton que me lleve a crear una actividad */}
+      <div>
+      <Link to="/create"> <button className={nav.button}>CREATE ACTIVITY</button></Link>{" "}
+      </div>
+
+        </div>
+
+
+
+
+
+
         <div className={style.cardscontainer}>
           {currentCountries?.map((x) => {
             //renderizamos la card

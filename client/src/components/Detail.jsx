@@ -14,11 +14,11 @@ export default function Detail(props){
     }, [dispatch, id])
 
     const myCountry = useSelector ((state) => state.detail)
-
+console.log(myCountry)
     return (
         <div>
             {
-                myCountry.length > 0 ? //si en my caracter hay algo
+                myCountry ? //si en my caracter hay algo
                 <div>
                     <h1> {myCountry.name} </h1> 
                     {/* directamente .name pq es solo un objeto lo que me trae */}

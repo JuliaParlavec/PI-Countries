@@ -34,34 +34,38 @@ const apiInfo = async () => {
   await Countries.bulkCreate(allCountries);
 };
 
-const getInfoDataBase = async () => {
-  return await Countries.findAll({
-    include: {
-      model: Activities,
-      attributes: ["name", "difficulty", "duration", "season"],
-      through: { attributes: [] },
-    },
-  });
-};
+// const getInfoDataBase = async () => {
+//   return await Countries.findAll({
+//     include: {
+//       model: Activities,
+//       attributes: ["name", "difficulty", "duration", "season"],
+//       through: { attributes: [] },
+//     },
+//   });
+// };
 
 router.get("/countries", async (req, res) => {
   try {
     const { name } = req.query;
+    console.log(name)
     if (name) {
+      console.log('---------------------')
       const countryName = await Countries.findAll({
         where: {
           name: {
             [Op.iLike]: "%" + name + "%",
           },
-          include: {
-            model: Activities,
-            attributes: ["name", "difficulty", "duration", "season"],
-            through: { attributes: [] },
           },
-        },
+          include: {
+            model: Activities
+          },
       });
-
-      data ? res.json(data) : res.json("name of city not equal country exist");
+      console.log(countryName)
+      if(countryName ){
+        res.json(countryName) 
+      } else  {
+        res.json("name of city not equal country exist");
+      } 
     } else {
       const verification = await Countries.count();
       if (verification > 1) {
@@ -156,12 +160,13 @@ router.get("/allActivities", async (req, res) => {
         for (let i = 0; i < x.activities.length; i++) {
           //activities es el nombre de la propiedad
           if (x.activities[i].name.toLowerCase() === name.toLowerCase()) {
-            return true;
+            return true; //si se cumple la condicion del filter agrega a count
           }
         }
       });
     
       if (count.length) {
+        console.log(count)
         return res.status(200).send(count);
       } else {
         return res

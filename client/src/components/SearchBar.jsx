@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getNameCountries } from "../actions/actions";
+import style from "./Estilos/SearchBar.module.css";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
@@ -22,11 +23,12 @@ export default function SearchBar() {
   return (
     <div>
       <input // se puede escribir
+      className={style.input}
         type="text" // tipo q se ppuede escribir
         placeholder="Search country..."
         onChange={(event) => handleInputChange(event)}
       />
-      <button type="submit" onSubmit={(event) => handleSubmit(event)}>
+      <button className={style.button} type="submit" onClick={(event) => handleSubmit(event)}>
         Search
       </button>
     </div>
