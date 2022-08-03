@@ -17,9 +17,9 @@ const router = Router();
 //   - Obtener los países que coincidan con el nombre pasado como query parameter (No necesariamente tiene que ser una matcheo exacto)
 //   - Si no existe ningún país mostrar un mensaje adecuado
 const apiInfo = async () => {
-  const AllApi = await axios.get("https://restcountries.com/v3/all");
+  const AllApi = await axios.get("https://restcountries.com/v3/all"); //un array con objetos
 
-  const allCountries = AllApi.data.map((x) => {
+  const allCountries = AllApi.data.map((x) => { //data es para acceder a la info (con accios ess necesario, no como con fetch)
     return {
       id: x.cca3,
       name: x.name.common,
@@ -31,8 +31,8 @@ const apiInfo = async () => {
       population: x.population,
     };
   });
-  await Countries.bulkCreate(allCountries);
-};
+  await Countries.bulkCreate(allCountries); //llama al modelo countries y bulkcreate, es para crear muchos objetos en una sola linea
+}; //el map y create se demoraria mas
 
 // const getInfoDataBase = async () => {
 //   return await Countries.findAll({
@@ -49,7 +49,6 @@ router.get("/countries", async (req, res) => {
     const { name } = req.query;
     console.log(name)
     if (name) {
-      console.log('---------------------')
       const countryName = await Countries.findAll({
         where: {
           name: {
@@ -67,13 +66,13 @@ router.get("/countries", async (req, res) => {
         res.json("name of city not equal country exist");
       } 
     } else {
-      const verification = await Countries.count();
-      if (verification > 1) {
+      const verification = await Countries.count(); //metoo para contar las filas de la tabla, devuelve un nro
+      if (verification > 1) { //si esta llena
         const data = await Countries.findAll();
         res.json(data);
       } else {
-        await apiInfo();
-        const data = await Countries.findAll();
+        await apiInfo(); //api info lo mete al final
+        const data = await Countries.findAll(); //que traiga todos
         res.json(data);
       }
     }

@@ -100,7 +100,10 @@ export function postActivity(payload) {
       payload
     );
     console.log(response);
-    return response;
+    return dispatch({
+      type: 'POST_ACTIVITY',
+      payload
+    });
   };
 }
 

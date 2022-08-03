@@ -5,7 +5,6 @@ import { getDetail } from "../actions/actions";
 import { useEffect } from "react";
 import style from "./Estilos/Detail.module.css";
 
-
 export default function Detail(props) {
   console.log(props);
   const dispatch = useDispatch();
@@ -19,7 +18,6 @@ export default function Detail(props) {
   console.log(myCountry);
   return (
     <div className={style.container}>
-    
       <div className={style.cardcontainer}>
         <div className={style.countrycontainer}>
           <div className={style.card}>
@@ -38,33 +36,34 @@ export default function Detail(props) {
               {" "}
               Pupulation: {myCountry.population}
             </div>
-            <div className={style.info}> Continent: {myCountry.region}</div>
           </div>
 
           <div>
-            <div className={style.name}>Country Activities: </div>
+            <div>
+              <div className={style.name}>Country Activities: </div>
+            </div>
+            {myCountry.activities?.map((e) => {
+              return (
+                <div key={e.id + 1000} className={style.actcard}>
+                  <div key={e.name} className={style.name}>
+                    Activity: {e.name}{" "}
+                  </div>
+                  <div key={e.difficulty + 2000} className={style.info}>
+                    Difficulty: {e.difficulty}{" "}
+                  </div>
+                  <div key={e.season} className={style.info}>
+                    Season: {e.season}{" "}
+                  </div>
+                  <div key={e.duration} className={style.info}>
+                    Duration: {e.duration} h
+                  </div>
+                </div>
+              );
+            })}
           </div>
-          {myCountry.activities?.map((e) => {
-            return (
-              <div key={e.id + 1000} className={style.actcard}>
-                <div key={e.name} className={style.name}>
-                  Activity: {e.name}{" "}
-                </div>
-                <div key={e.difficulty + 2000} className={style.info}>
-                  Difficulty: {e.difficulty}{" "}
-                </div>
-                <div key={e.season} className={style.info}>
-                  Season: {e.season}{" "}
-                </div>
-                <div key={e.duration} className={style.info}>
-                  Duration: {e.duration} h
-                </div>
-              </div>
-            );
-          })}
         </div>
         <Link to="/home">
-          <button className={style.button}>Go back</button>
+          <button className={style.button}>Back</button>
         </Link>
       </div>
     </div>

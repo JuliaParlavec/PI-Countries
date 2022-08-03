@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { getNameCountries } from "../actions/actions";
 import style from "./Estilos/SearchBar.module.css";
 
-export default function SearchBar() {
+export default function SearchBar({page}) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
@@ -18,6 +18,7 @@ export default function SearchBar() {
     //esta es para cdo apretamos el boton
     event.preventDefault();
     dispatch(getNameCountries(name)); //despachamos la accion con el nombre como parametro! el cual se va a convertir en el estado local, que es lo que esta tipeando mi usuario
+    page(1); //agarra el valor y lo lleva a home
   }
 
   return (

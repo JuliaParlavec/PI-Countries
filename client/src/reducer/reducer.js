@@ -1,5 +1,5 @@
 //Inicializamos el estado
- import { ordAlpha, ordPop } from "../components/Orders/Order.jsx";
+
 
 const initialState = {
   countries: [], //arreglo dde se dejan los q se renderizan
@@ -95,6 +95,7 @@ export default function rootReducer(state = initialState, action) {
           return{
             ...state,
           }
+          
         case "GET_DETAILS":
           return{
             ...state,

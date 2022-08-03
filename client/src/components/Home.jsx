@@ -75,25 +75,36 @@ export default function Home() {
       dispatch(alphabeticalOrder(event.target.value));
     setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
     setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
-    console.log('allCountries');
     }
     // alert(allCountries);
   }
 
   function handleOrderByPopulation(event) {
     event.preventDefault(); //prevenimos q se rompa
-    dispatch(orderByPopulation(event.target.value));
+    if (event.target.value === "all") {
+      dispatch(getCountries())
+      setCurrentPage(1)
+      setOrden(`Ordered ${event.target.value}`) 
+    } else {
+      dispatch(orderByPopulation(event.target.value));
     setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
     setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
+    }
   }
 //-----------------------------------------------------------filter 
 
   function handleInputFilterActivity(event) {
     // ************************************************************
     event.preventDefault();
-    dispatch(filterActivityByName(event.target.value));
-    setCurrentPage(1);
-    setOrden(`Ordenado: ${event.target.value}`);
+    if (event.target.value === "all") {
+      dispatch(getCountries())
+      setCurrentPage(1)
+      setOrden(`Ordered ${event.target.value}`) 
+    } else {
+      dispatch(filterActivityByName(event.target.value));
+    setCurrentPage(1); //declaramos q cdo haga el ordenamiento setee la pagina en la primera
+    setOrden(`Ordered ${event.target.value}`); //para lo unico q me sirve es q cdo yo setee la currentPage, me modifique el estado local y se renderice
+    }
   }
   //----------------
 
@@ -115,7 +126,9 @@ export default function Home() {
 
 
       <div className={nav.container}>
-      <SearchBar />
+      <SearchBar 
+      page = {setCurrentPage}
+      />
       <div>
         <div>
           {console.log(allCountries)}
@@ -132,7 +145,7 @@ export default function Home() {
         <div className={nav.title}>Order by population</div>
         <select className={nav.input} onChange={(event) => handleOrderByPopulation(event)}>
           {/*Amount of population*/}
-          <option></option>
+          <option value ="all">All</option>
           <option value="Higher">Higher population</option>
           <option value="Lower">Lower population</option>
         </select>
@@ -158,7 +171,7 @@ export default function Home() {
         <div className={nav.title}>Filter by activity</div>
         <select className={nav.input} onChange={(event) => handleInputFilterActivity(event)}>
           {/*Activity************************************************/}
-          <option></option>
+          <option value ="all">All</option>
           {allActivities?.map((activity) => (
             <option value={activity.name}> {activity.name} </option>
           ))}
