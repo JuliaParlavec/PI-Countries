@@ -18,14 +18,10 @@ import style from "./Estilos/Home.module.css";
 import nav from "./Estilos/NavBar.module.css";
 
 export default function Home() {
-  console.log('hola')
   const dispatch = useDispatch(); //es para usar la constante e ir despachando mis acciones
   const allCountries = useSelector((state) => state.countries); // con useSelector traese en la constante allCountries todo lo que esta en el estado de countries
 
-  //--------------------------
-  //estado local para filtro alfabetico
-  const [orden, setOrden] = useState("");
-  //---------------------------
+  //-------------------
   // paginado
   const [currentPage, setCurrentPage] = useState(1); //hago un estado local con la pagina actual y el seteo de la pag actual. seteo el use state en 1 -> ya que siempre voy a arrancar en la primer pagina
   const [countriesPerPage, setCountriesPerPage] = useState(10); //hago un estado local con la cantidad de paisess por pagina y otro para setearlo. seteo el state en 10 (como pide el read me) -> pq son los personajes q quiero yo por pagina
@@ -49,8 +45,7 @@ export default function Home() {
     dispatch(getActivities()); //despacho el getcountries invocado
   }, [dispatch]); //este array con dispatch quiere decir que se "monte" siempre y cdo suceda el getCountries (osea q traiga to2 los paises)
 
-  //-------------------use selector filtro activities *****************************************************
-  const allActivities = useSelector((state) => state.allActivities);
+
   //-------------------
 
   function handleClick(event) {
@@ -58,6 +53,9 @@ export default function Home() {
     event.preventDefault(); //prevenimos que se rompa
     dispatch(getCountries()); //lo que despachamos es todos los paises
   }
+  //--------------------------
+  //estado local para filtro alfabetico
+const [orden, setOrden] = useState("");
 
   //-----------handlers
   function handleFilterContinent(event) {
@@ -92,9 +90,10 @@ export default function Home() {
     }
   }
 //-----------------------------------------------------------filter 
+  //-------------------use selector filtro activities *****************************************************
+  const allActivities = useSelector((state) => state.allActivities);
 
   function handleInputFilterActivity(event) {
-    // ************************************************************
     event.preventDefault();
     if (event.target.value === "all") {
       dispatch(getCountries())
@@ -107,7 +106,6 @@ export default function Home() {
     }
   }
   //----------------
-
   return (
 
     <div className={style.container}>
@@ -156,7 +154,6 @@ export default function Home() {
         <div className={nav.title}>Order by continent</div>
         <select className={nav.input} onChange={(event) => handleFilterContinent(event)}>
           {/*continent*/}
-          {/* <option value="All">All</option> */}
           <option value ="All">All</option>
           <option value="Europe">Europe</option>
           <option value="Oceania">Oceania</option>
@@ -195,12 +192,6 @@ export default function Home() {
       </div>
 
         </div>
-
-
-
-
-
-
         <div className={style.cardscontainer}>
           {currentCountries?.map((x) => {
             //renderizamos la card

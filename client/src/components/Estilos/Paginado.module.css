@@ -1,25 +1,25 @@
-.button{
-    color: #F5F2E7;
-    cursor: pointer;
-    background-color: rgb(22, 21, 21);
-    width: 35px;   
-    border-radius: 5px;
-    border: none;
-    height: 30px;      
+.button {
+  color: #f5f2e7;
+  cursor: pointer;
+  background-color: rgb(22, 21, 21);
+  width: 35px;
+  border-radius: 5px;
+  border: none;
+  height: 30px;
 }
-.button:focus{
-    background-color: black;
-    color: #F5F2E7;
-    border-radius: 5px;
-    border: 3px solid white;
-    width: 45px;
-    height: 30px;
+.button:focus {
+  background-color: black;
+  color: #f5f2e7;
+  border-radius: 5px;
+  border: 3px solid white;
+  width: 45px;
+  height: 30px;
 }
-.container{
-    /* display: flex;
+.container {
+  /* display: flex;
     justify-content: center;
     align-items: center; */
-    margin-top: 10px;
-    position: absolute;
-    margin-left: 250px;
+  margin-top: 10px;
+  position: absolute;
+  margin-left: 250px;
 }

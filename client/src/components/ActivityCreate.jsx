@@ -33,14 +33,14 @@ export default function ActivityCreate() {
     setInput({
       //quiero ir guardando las cosas que e usuarios va escribiedo en el input en mi estado input
       ...input, //trae todo lo que ya tenias
-      [e.target.name]: e.target.value, //el e.target.name seteamelo en el e.target.value de lo que este modificando
+      name: e.target.value, //el e.target.name seteamelo en el e.target.value de lo que este modificando
       //el [e.target.name] va a ir siendo el name de cada uno de los imputs
     });
     setErrors(
       validate({
         //seteame mi estado errores pasandole la funcion validate que yo hice
         ...input, //con el estado imput
-        [e.target.name]: e.target.value, //y el estado name en el e.target.value
+        name: e.target.value, //y el estado name en el e.target.value
       })
     );
   }
@@ -53,7 +53,7 @@ export default function ActivityCreate() {
       validate({
         //seteame mi estado errores pasandole la funcion validate que yo hice
         ...input, //con el estado imput
-        [e.target.difficulty]: e.target.value, //y el estado name en el e.target.value
+        difficulty: e.target.value, //y el estado name en el e.target.value
       })
     );
   }
@@ -66,7 +66,7 @@ export default function ActivityCreate() {
       validate({
         //seteame mi estado errores pasandole la funcion validate que yo hice
         ...input, //con el estado imput
-        [e.target.duration]: e.target.value, //y el estado name en el e.target.value
+        duration: e.target.value, //y el estado name en el e.target.value
       })
     );
   }
@@ -79,7 +79,7 @@ export default function ActivityCreate() {
       validate({
         //seteame mi estado errores pasandole la funcion validate que yo hice
         ...input, //con el estado imput
-        [e.target.season]: e.target.value, //y el estado name en el e.target.value
+        season: e.target.value, //y el estado name en el e.target.value
       })
     );
   }
@@ -94,7 +94,7 @@ export default function ActivityCreate() {
       validate({
         //seteame mi estado errores pasandole la funcion validate que yo hice
         ...input, //con el estado imput
-        [e.target.countries]: e.target.value, //y el estado name en el e.target.value
+        countries: e.target.value, //y el estado name en el e.target.value
       })
     );
   }
@@ -103,7 +103,6 @@ export default function ActivityCreate() {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(postActivity(input)); //q cuando ocurra el evento se "despache" la actividad
-    alert(input);
     alert("Activity created succesfully!");
     //aparece una alerta con el mensaje
     setInput({
@@ -121,6 +120,15 @@ export default function ActivityCreate() {
       ...input,
       countries: input.countries.filter((o) => o !== el),
     });
+    if (input.countries.length < 1) {
+      setErrors(
+        validate({
+          //seteame mi estado errores pasandole la funcion validate que yo hice
+          ...input, //con el estado imput
+          countries: [], //y el estado name en el e.target.value
+        })
+      );
+    }
   }
 
   //ahora renderizamos
@@ -133,6 +141,9 @@ export default function ActivityCreate() {
             <div>
               <label className={style.atribute}>Name:</label>
               <input
+                placeholder="Enter an activity..."
+                required={true}
+                pattern="[a-zA-Z ]{3,254}"
                 className={style.input}
                 type="text"
                 value={input.name}
@@ -149,6 +160,7 @@ export default function ActivityCreate() {
                 className={style.input}
                 onChange={(e) => handleDifficulty(e)}
               >
+                <option></option>
                 <option value="1" key="1">
                   1
                 </option>
@@ -175,6 +187,7 @@ export default function ActivityCreate() {
                 className={style.input}
                 onChange={(e) => handleDuration(e)}
               >
+                <option></option>
                 <option value="1" key="1">
                   1
                 </option>
@@ -207,6 +220,7 @@ export default function ActivityCreate() {
             <div>
               <label className={style.atribute}>Season: </label>
               <select className={style.input} onChange={(e) => handleSeason(e)}>
+                <option></option>
                 <option value="spring" key="spring">
                   Spring
                 </option>
@@ -226,7 +240,11 @@ export default function ActivityCreate() {
             </div>
 
             <label className={style.atribute}>Countries:</label>
-            <select className={style.input} onChange={(e) => handleCountry(e)}>
+            <select
+              placeholder="find your country..."
+              className={style.input}
+              onChange={(e) => handleCountry(e)}
+            >
               {countries.map((c) => (
                 <option value={c.name}> {c.name}</option>
               ))}
@@ -240,28 +258,23 @@ export default function ActivityCreate() {
             <Link to="/home">
               <button className={style.button}>Back</button>
             </Link>
-            {/* {!input.name ||
-            !input.difficulty ||
-            !input.duration ||
-            !input.season ||
-            input.countries.length === 0 ? (
-              <button className={style.button} disabled type="submit">
-                Add Activity
-              </button>
-            ) : (
-              <button className={style.button} onClick={(e) => handleSubmit(e)} type="submit">
-                Add Activity
-              </button>
-            )} */}
-            <button className={style.button} type="submit" onClick={(e) => handleSubmit(e)} disabled={(Object.keys(errors).length === 0)}>
+            <button
+              className={style.button}
+              type="submit"
+              onClick={(e) => handleSubmit(e)}
+              disabled={
+                !input.name ||
+                !input.duration ||
+                !input.season ||
+                !input.difficulty ||
+                !input.countries.length > 0
+                  ? true
+                  : false
+              }
+            >
               Add Activity
             </button>
           </div>
-
-          <p className={style.pdanger}>
-            {errors.name} {errors.difficulty} {errors.duration} {errors.season}{" "}
-            {errors.countries}
-          </p>
 
           <div className={style.countrycontainer}>
             {input.countries.map((el) => (

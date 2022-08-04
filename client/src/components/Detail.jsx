@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import style from "./Estilos/Detail.module.css";
 
 export default function Detail(props) {
-  console.log(props);
   const dispatch = useDispatch();
   const id = props.match.params.id;
 
@@ -15,7 +14,7 @@ export default function Detail(props) {
   }, [dispatch, id]);
 
   const myCountry = useSelector((state) => state.detail);
-  console.log(myCountry);
+
   return (
     <div className={style.container}>
       <div className={style.cardcontainer}>

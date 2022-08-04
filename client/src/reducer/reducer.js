@@ -85,7 +85,7 @@ export default function rootReducer(state = initialState, action) {
         if (a.population > b.population) return 1
         return 0 
       })
-
+      
         return {
             ...state,
             countries: orderPop
